@@ -39,3 +39,6 @@ A behavor analyses the NPC state and calculates the next action for an npc to ru
 The ai loop runs every 50 milliseconds, it runs through every npc, looks if an npc has a value for the "next_action" field. If yes, it checks wether the action has "is_looping = true". If it is true in executes the action, if not it removes the action.
 
 When the "next_action" field is empty, it looks up the npc's behavior and calculates the next action to execute.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
