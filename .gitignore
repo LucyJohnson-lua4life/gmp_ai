@@ -1,0 +1,4 @@
+#non source code
+*.exe
+*.dll
+server_log.txt

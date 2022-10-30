@@ -1,0 +1,30 @@
+local ai_robber_behavior = require "ai_scripts/behaviors/ai_robber_behavior"
+local npc_data = {}
+npc_data.name = "Robber"
+npc_data.instance = "PC_HERO"
+npc_data.strength = 125
+npc_data.dexterity = 100
+npc_data.level = 20 
+npc_data.max_health = 700
+npc_data.health = 700
+npc_data.skill_1h = 50
+npc_data.skill_2h = 50
+npc_data.melee_weapon = "ItMw_Schwert"
+npc_data.armor = "ITAR_BDT_M"
+npc_data.behavior = ai_robber_behavior
+npc_data.weapon_mode = 3
+npc_data.fight_range = 300 
+npc_data.respawn_time_ms = 120000
+npc_data.last_pos_update = nil
+npc_data.last_pos_x = nil
+npc_data.last_pos_y = nil
+npc_data.last_pos_z = nil
+npc_data.current_pos_x = nil
+npc_data.current_pos_y = nil
+npc_data.current_pos_z = nil
+npc_data.head_model = "Hum_Head_FatBald"
+npc_data.body_model = "Hum_Body_Naked0"
+npc_data.body_texture = 1
+npc_data.head_texture = math.random(35,80)
+
+return npc_data
