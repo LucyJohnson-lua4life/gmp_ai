@@ -190,7 +190,6 @@ function ai_actions.createStopAction(ai_id)
 end
 
 
--- TODO: GOTOPOSITION implementieren
 function ai_actions.gotoPosition(ai_id, target_position_name, world)
     local waynet = ai_state.getWaynetObject()
     local x, y, z = GetPlayerPos(ai_id)
@@ -205,11 +204,9 @@ function ai_actions.gotoPosition(ai_id, target_position_name, world)
     end
     action.way_route = waynet.getWayRoute(closest_start_wp_name, target_wp_name, world)
     action.route_index = 1
-    --waynet.printWayPath(closest_start_wp_name, target_wp_name)
     action.executeAction = function()
         local next_wp_name = action.way_route[action.route_index]
         local target_wp = waynet.getWaynet()[world][next_wp_name]
-        --print("next: " .. next_wp_name .. ", " .. target_wp.x .. ", " .. target_wp.y .. ", " .. target_wp.z)
         ai_state_funcs.gotoPosition(ai_id, target_wp.x, target_wp.y, target_wp.z)
         local current_x, current_y, current_z = GetPlayerPos(ai_id)
         
@@ -226,7 +223,6 @@ function ai_actions.gotoPosition(ai_id, target_position_name, world)
                 SetPlayerAngle(ai_id, angle_to_next_wp)
                 PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "WALKL"))
             end
-        --PlayAnimation(ai_id, "S_FISTWALKL")
         else
             action.is_looping = false
             PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "RUN"))
