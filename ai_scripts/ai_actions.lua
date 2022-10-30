@@ -287,7 +287,7 @@ function ai_actions.createThreatenAction(ai_id, target_id, wait_time_ms)
                 end
                 
                 if distance < action.chase_distance then
-                    PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "RUN"))
+                    PlayAnimation(ai_id, "S_RUN")
                 else
                     PlayAnimation(ai_id, ai_helper.getAnimationName("S", ai_data.weapon_mode, "RUNL"));
                 end

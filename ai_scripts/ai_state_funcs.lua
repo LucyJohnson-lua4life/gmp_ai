@@ -6,19 +6,20 @@ local ai_state_funcs = {}
 
 
 function ai_state_funcs.getCombatStateBasedAni(ai_id, ani_prefix, ani_suffix) 
-    local ai_data = ai_state.getNpcList()[ai_id]
-    local weapon_mode = ai_data.weapon_mode;
+    local weapon_mode = GetPlayerWeaponMode(ai_id)
 
-    if weapon_mode == 0 then
+    if weapon_mode == 0 or weapon_mode == 1 then
         return ani_prefix .. "FIST" .. ani_suffix
-    elseif weapon_mode == 1 then
+    elseif weapon_mode == 3 then
         return ani_prefix .. "1H" .. ani_suffix
-    elseif weapon_mode == 1 then
+    elseif weapon_mode == 4 then
         return ani_prefix .. "2H" .. ani_suffix
-    elseif weapon_mode == 1 then
+    elseif weapon_mode == 5 then
         return ani_prefix .. "BOW" .. ani_suffix
-    elseif weapon_mode == 1 then
+    elseif weapon_mode == 6 then
         return ani_prefix .. "CBOW" .. ani_suffix
+    elseif weapon_mode == 7 then
+        return ani_prefix .. "MAGIC" .. ani_suffix
     end
     return ani_prefix .. ani_suffix
 end
