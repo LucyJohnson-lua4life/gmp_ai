@@ -6,26 +6,28 @@ local script_time = require "helper/script_time"
 local ai_robber_behavior = {}
 local TIME_TO_WAIT_MS = 3000
 local WARN_DISTANCE = 500
-local WANDER_FREQUENCY = 1200000
+local WANDER_PAUSE_TIME_MIN = 30000
+local WANDER_PAUSE_TIME_MAX = 60000
 
 local robber_wps = {
-    "NW_CITY_TO_LIGHTHOUSE_16",
-    "NW_TO_PASS_01",
-    "NW_FARM2_TO_TAVERN_RANGERBANDITS_01",
-    "NW_BIGMILL_FARM3_RANGERBANDITS_02",
-    "NW_FLEEDMT_KAP3",
-    "NW_FARM4_WOOD_RANGERBANDITS_02",
-    "NW_FARM4_WOOD_MONSTER_N_5",
+    "NW_TAVERNE_06",
+    "NW_BYPASS_03_CONNECT",
+    "NW_TAVERNE_TROLLAREA_MONSTER_02_01",
+    "NW_TAVERNE_TROLLAREA_08",
+    "NW_BIGFARM_LAKE_09",
     "NW_FARM3_PATH_14",
-    "NW_TROLLAREA_PATH_57",
-    "NW_TROLLAREA_PATH_32",
-    "NW_TROLLAREA_RUINS_37",
-    "NW_TROLLAREA_RUINS_33",
-    "NW_TROLLAREA_PLANE_02",
-    "NW_TROLLAREA_PATH_01_01",
-    "NW_TROLLAREA_PATH_71_MONSTER2",
-    "NW_TAVERNE_06"
+    "NW_TAVERNE_CROSS",
+    "NW_FARM2_TO_TAVERN_07",
+    "NW_TAVERNE_BIGFARM_MONSTER_01",
+    "NW_TAVERN_TO_FOREST_03",
+    "NW_SHRINE_01",
+    "NW_PATH_TO_MONASTER_AREA_01",
+    "NW_SHRINE_MONSTER",
+    "NW_TAVERNE_IN_RANGERMEETING",
+    "NW_TAVERNE_IN_07",
 }
+
+local num_robber_wps = #robber_wps
 
 local function getEvasiveAction(ai_data)
     local random = math.random(1, 10)
@@ -112,10 +114,11 @@ function ai_robber_behavior.getNextAction(ai_id)
         end
     end
     
-    if ai_data.last_wander_time == nil then
-        ai_data.last_wander_time = script_time.getNowInMs()
+    if ai_data.next_wander_time == nil or ai_data.is_wandering == nil then
+        ai_data.next_wander_time = script_time.getNowInMs() + WANDER_PAUSE_TIME_MIN
+        ai_data.is_wandering = false
     end
-    
+
     if ai_data.enemy_id ~= nil then
         local distance = GetDistancePlayers(ai_data.id, ai_data.enemy_id)
         if distance > attack_range and distance < attack_range + WARN_DISTANCE then
@@ -129,10 +132,15 @@ function ai_robber_behavior.getNextAction(ai_id)
         return ai_actions.createThreatenAction(ai_id, close_by_char_id, 5000)
     elseif isAiFarAwayFromStartPosition(ai_data, world) == true then
         return ai_actions.gotoPosition(ai_id, ai_data.position_name, world)
-    elseif script_time.getNowInMs() > ai_data.last_wander_time + WANDER_FREQUENCY then
-        ai_data.position_name = robber_wps[math.random(1, #robber_wps)]
+    elseif not ai_data.is_wandering and script_time.getNowInMs() > ai_data.next_wander_time then
+        ai_data.is_wandering = true
+        ai_data.position_name = robber_wps[math.random(1, num_robber_wps)]
         return ai_actions.gotoPosition(ai_id, ai_data.position_name, world)
     else
+        if ai_data.is_wandering then
+            ai_data.is_wandering = false
+            ai_data.next_wander_time = script_time.getNowInMs() + math.random(WANDER_PAUSE_TIME_MIN, WANDER_PAUSE_TIME_MAX)
+        end
         return ai_actions.createPlayAnimationAction(ai_id, "S_LGUARD")
     end
 end
