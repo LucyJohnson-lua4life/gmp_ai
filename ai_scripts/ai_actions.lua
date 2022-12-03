@@ -202,7 +202,19 @@ function ai_actions.gotoPosition(ai_id, target_position_name, world)
     else
         target_wp_name = waynet.getNearestWaypointNameByFp(target_position_name, world)
     end
-    action.way_route = waynet.getWayRoute(closest_start_wp_name, target_wp_name, world)
+
+    local wayroute = waynet.getWayRoute(closest_start_wp_name, target_wp_name, world)
+
+    if wayroute == nil or #wayroute == 0 then
+        local msg = string.format(
+            "%s (%i) has invalid wayroute from \"%s\" to \"%s\" and died ...",
+            GetPlayerName(ai_id) , ai_id, closest_start_wp_name, target_wp_name)
+        print(msg)
+        SetPlayerHealth(ai_id, 0)
+        OnPlayerDeath(ai_id, nil, -1, nil)
+    end
+
+    action.way_route = wayroute
     action.route_index = 1
     action.executeAction = function()
         local next_wp_name = action.way_route[action.route_index]
@@ -215,15 +227,17 @@ function ai_actions.gotoPosition(ai_id, target_position_name, world)
             PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "RUN"))
         end
         
-        if action.way_route ~= nil and action.route_index < #action.way_route then
-            if ai_helper.getDistance(target_wp.x, target_wp.y, target_wp.z, current_x, current_y, current_z) < 100 then
-                action.route_index = action.route_index + 1
-            else
-                local angle_to_next_wp = ai_helper.getRadiansAngle(current_x, current_z, target_wp.x, target_wp.z)
-                SetPlayerAngle(ai_id, angle_to_next_wp)
-                PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "WALKL"))
-            end
+        local distance = ai_helper.getDistance(target_wp.x, target_wp.y, target_wp.z, current_x, current_y, current_z)
+        if distance >= 100 then
+            -- Go on, because waypoint not reached.
+            local angle_to_next_wp = ai_helper.getRadiansAngle(current_x, current_z, target_wp.x, target_wp.z)
+            SetPlayerAngle(ai_id, angle_to_next_wp)
+            PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "WALKL"))
+        elseif action.route_index < #action.way_route then
+            -- Go to next waypoint in route.
+            action.route_index = action.route_index + 1
         else
+            -- Reached last waypoint of route. Done.
             action.is_looping = false
             PlayAnimation(ai_id, ai_state_funcs.getCombatStateBasedAni(ai_id, "S_", "RUN"))
         end
