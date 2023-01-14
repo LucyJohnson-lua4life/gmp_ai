@@ -26,8 +26,9 @@ local function equipPlayer(playerid)
 	SetPlayerHealth(playerid, 1100)
 	SetPlayerMaxHealth(playerid, 1100)
 	SetPlayerSkillWeapon(playerid, SKILL_1H, 100);
-	EquipArmor(playerid, "ITMW_1H_FERROSSWORD_MIS");
-	EquipMeleeWeapon(playerid,"ITAR_THORUS_ADDON");
+	EquipArmor(playerid, "ITAR_THORUS_ADDON");
+	EquipMeleeWeapon(playerid,"ITMW_1H_FERROSSWORD_MIS");
+
 
 end
 
