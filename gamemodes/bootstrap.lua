@@ -48,7 +48,7 @@ function OnPlayerSpawn(playerid)
 end
 
 function OnPlayerHit(playerid, killerid)
-	security_module.OnPlayerHit(playerid, killerid)
+	--security_module.OnPlayerHit(playerid, killerid)
 	ai_init.OnPlayerHit(playerid, killerid)
 end
 
@@ -119,6 +119,5 @@ function OnPlayerCommandText(playerid, cmdtext)
 end
 
 function OnPlayerChangeHealth(playerid, new_value, old_value)
-
-	security_module.OnPlayerChangeHealth(playerid, new_value, old_value)
+	--security_module.OnPlayerChangeHealth(playerid, new_value, old_value)
 end
