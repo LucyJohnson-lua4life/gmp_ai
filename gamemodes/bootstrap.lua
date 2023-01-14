@@ -4,6 +4,7 @@ local script_time = require "helper/script_time"
 local ai_state_funcs = require "ai_scripts/ai_state_funcs"
 local robber = require "ai_scripts/npc_data/robber"
 local ai_init = require "ai_scripts/ai_init"
+local security_module = require "feature_modules/security_module/security_module"
 
 
 function OnGamemodeInit()
@@ -47,6 +48,7 @@ function OnPlayerSpawn(playerid)
 end
 
 function OnPlayerHit(playerid, killerid)
+	security_module.OnPlayerHit(playerid, killerid)
 	ai_init.OnPlayerHit(playerid, killerid)
 end
 
@@ -114,4 +116,9 @@ function OnPlayerCommandText(playerid, cmdtext)
 		end
 		SetPlayerPos(playerid, position.x, position.y, position.z)
 	end
+end
+
+function OnPlayerChangeHealth(playerid, new_value, old_value)
+
+	security_module.OnPlayerChangeHealth(playerid, new_value, old_value)
 end
