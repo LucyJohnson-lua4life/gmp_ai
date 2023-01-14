@@ -6,7 +6,7 @@ local last_hit_time = {}
 local last_player_health = {}
 
 local DAMAGE_THRESHOLD = 200
-local MAX_DAMAGE_SPEED = 2000
+local MAX_DAMAGE_SPEED = 200
 
 local function handleAttackSpeedAntiCheat(playerid, killerid)
     local now = script_time.getNowInMs()
