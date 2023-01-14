@@ -9,13 +9,13 @@ local DAMAGE_THRESHOLD = 200
 
 local function handleAttackSpeedAntiCheat(playerid, killerid)
     local now = script_time.getNowInMs()
-    local hit_time = last_hit_time[killerid]
+    local latest_hit_time = last_hit_time[killerid]
 
-    if hit_time == nil then
-        hit_time = 0
+    if latest_hit_time == nil then
+        latest_hit_time = 0
     end
 
-    if now - hit_time < 200 then
+    if now - latest_hit_time < 200 then
         SetPlayerHealth(playerid, GetPlayerMaxHealth(playerid))
         SetPlayerHealth(killerid, 0)
 	    SendPlayerMessage(killerid, 255, 0, 0, "Attack speed cheat detected! Attacker got killed.");
