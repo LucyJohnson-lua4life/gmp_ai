@@ -5,7 +5,7 @@ local ai_defaults = require "ai_scripts/ai_defaults"
 local script_time = require "helper/script_time"
 local ai_robber_behavior = {}
 local TIME_TO_WAIT_MS = 3000
-local WARN_DISTANCE = 500
+local CHASE_DISTANCE = 2000
 local WANDER_FREQUENCY = 1200000
 
 local robber_wps = {
@@ -118,9 +118,9 @@ function ai_robber_behavior.getNextAction(ai_id)
     
     if ai_data.enemy_id ~= nil then
         local distance = GetDistancePlayers(ai_data.id, ai_data.enemy_id)
-        if distance > attack_range and distance < attack_range + WARN_DISTANCE then
+        if distance > attack_range and distance < attack_range + CHASE_DISTANCE then
             return ai_actions.createRunToTargetAction(ai_data.id, ai_data.enemy_id)
-        elseif distance > attack_range + WARN_DISTANCE then
+        elseif distance > attack_range + CHASE_DISTANCE then
             ai_data.enemy_id = nil
         elseif distance <= attack_range then
             return getFightAction(ai_data)
