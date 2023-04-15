@@ -351,7 +351,7 @@ function ai_init.spawnNewWorldNpcs()
   ai_state_funcs.spawnNpc(robber, "NW_TROLLAREA_PLANE_02", world)
   ai_state_funcs.spawnNpc(robber, "NW_TROLLAREA_PATH_01_01", world)
   ai_state_funcs.spawnNpc(robber, "NW_TROLLAREA_PATH_71_MONSTER2", world)
-  ai_state_funcs.spawnNpc(robber, "NW_TAVERNE_06", world)
+  ai_state_funcs.spawnNpc(orc_elite, "NW_TAVERNE_06", world)
 
 
 end

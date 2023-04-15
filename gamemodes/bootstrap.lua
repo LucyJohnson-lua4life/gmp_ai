@@ -23,12 +23,12 @@ end
 
 local function equipPlayer(playerid)
 	SetPlayerStrength(playerid, 100)
-	SetPlayerHealth(playerid, 1100)
-	SetPlayerMaxHealth(playerid, 1100)
+	SetPlayerHealth(playerid, 1430)
+	SetPlayerMaxHealth(playerid, 1430)
 	SetPlayerSkillWeapon(playerid, SKILL_1H, 100);
 	EquipArmor(playerid, "ITAR_THORUS_ADDON");
 	EquipMeleeWeapon(playerid,"ITMW_1H_FERROSSWORD_MIS");
-
+	GiveItem(playerid, "ITPO_HEALTH_ADDON_04", 100)
 
 end
 
